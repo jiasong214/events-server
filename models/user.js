@@ -1,9 +1,16 @@
 import mongoose from 'mongoose';
 
+// TODO: input validation
+
 const UserSchema = new mongoose.Schema({
-  email: String,
-  // FIXME: temporary
-  password: String,
+  email: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
   cart: {
     type: [mongoose.Schema.Types.ObjectId],
     ref: "event",
@@ -11,14 +18,10 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-UserSchema.set("toJSON", {
-  transform: (doc, ret) => {
-    ret.id = ret._id;
+// UserSchema.set("toJSON", {
+//   transform: (doc, ret) => {
+//     delete ret.password;
+//   }
+// });
 
-    delete ret.password;
-    delete ret._id;
-    delete ret.__v;
-  }
-})
-
-export default mongoose.model("user", UserSchema);
+export default mongoose.model("User", UserSchema);

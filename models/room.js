@@ -6,4 +6,4 @@ const RoomSchema = new mongoose.Schema({
   cols: Number
 });
 
-export default mongoose.model("room", RoomSchema);
+export default mongoose.model("Room", RoomSchema);

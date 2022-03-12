@@ -17,6 +17,7 @@ app.listen(PORT, () => {
 });
 
 // middleware
+app.use(express.json());
 app.use(cors());
 
 //router
