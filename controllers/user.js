@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import UserData from '../models/User.js';
+import User from '../models/User.js';
 
 const createJWT = (email) => {
   return jwt.sign(
@@ -55,6 +56,43 @@ export const login = async (req, res) => {
 
   // 4. send a response
   return res.status(200).json({id: user.id, token});
+}
+
+export const getAll = async (req, res) => {
+  const users = await UserData.find();
+
+  return res.status(200).json(users);
+}
+
+export const getOne = async (req, res) => {
+  const id = req.params.id;
+  const user = await UserData.findOne({_id: id}).populate("wishlist");
+ 
+  return res.status(200).json(user);
+}
+
+export const addWishlist = async (req, res) => {
+  const userID = req.params.id;
+  const eventID = req.body.eventID;
+
+  const user = await UserData.findOne({_id: userID});
+
+  user.wishlist.push(eventID);
+  user.save();
+
+  return res.status(200).json(user);
+}
+
+export const removeWishlist = async (req, res) => {
+  const userID = req.params.id;
+  const eventID = req.body.eventID;
+
+  const user = await UserData.findOne({_id: userID});
+
+  console.log(user.wishlist);
+
+  // user.wishlist.push(eventID);
+  // user.save();
 }
 
 // export const remove = async (req, res) => {

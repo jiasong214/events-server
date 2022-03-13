@@ -3,10 +3,14 @@ import * as roomController from '../controllers/room.js';
 
 const roomRouter = express.Router();
 
-roomRouter.get('/', roomController.getAll);
-roomRouter.get('/:id', roomController.getOne);
-roomRouter.post('/', roomController.create);
-roomRouter.put('/:id', roomController.update);
-roomRouter.delete('/:id', roomController.remove);
+roomRouter.route('/')
+  .get(roomController.getAll)
+  .post(roomController.create);
+
+roomRouter.route('/:id')
+  .get(roomController.getOne)
+  .post(roomController.create)
+  .put(roomController.update)
+  .delete(roomController.remove);
 
 export default roomRouter;

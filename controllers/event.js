@@ -2,13 +2,43 @@ import EventData from '../models/Event.js';
 
 
 export const getAll = async (req, res) => {
-  const events = await EventData.find();
+  const date = new Date();
+  const yesterday = date.setDate(date.getDate() - 1);
 
-  return res.status(200).json(events);
+  // events from today
+  const events = await EventData.find({
+    "date": { $gte: yesterday }
+  }).populate("room").sort({"date": 1});
+
+  // events until yesterday
+  const expiredEvents = await EventData.find({
+    "date": { $lt: yesterday }
+  }).populate("room").sort({"date": 1});
+
+  return res.status(200).json([...events, ...expiredEvents]);
+}
+
+export const getByType = async (req, res) => {
+  const type = req.params.type;
+
+  const date = new Date();
+  const yesterday = date.setDate(date.getDate() - 1);
+
+  const events = await EventData.find({
+    "date": { $gte: yesterday },
+    "type": type
+  }).populate("room").sort({"date": 1});
+
+  const expiredEvents = await EventData.find({
+    "date": { $lt: yesterday },
+    "type": type
+  }).populate("room").sort({"date": 1});
+
+  return res.status(200).json([...events, ...expiredEvents]);
 }
 
 export const getOne = async (req, res) => {
-  const event = await EventData.find({_id: req.params.id});
+  const event = await EventData.findOne({_id: req.params.id}).populate("room");
 
   return res.status(200).json(event);
 }
@@ -26,7 +56,7 @@ export const update = async (req, res) => {
 }
 
 export const remove = async (req, res) => {
-  const event = await EventData.deleteOne({_id: req.params.id});
+  const event = await EventData.findOneAndDelete({_id: req.params.id});
   
   return res.status(200).json(event);
 }

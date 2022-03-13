@@ -15,9 +15,14 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  cart: {
+  wishlist: {
     type: [mongoose.Schema.Types.ObjectId],
-    ref: "event",
+    ref: "Event",
+    default: []
+  },
+  bookings: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Booking",
     default: []
   }
 });

@@ -3,10 +3,16 @@ import * as eventController from '../controllers/event.js';
 
 const eventRouter = express.Router();
 
-eventRouter.get('/', eventController.getAll);
-eventRouter.get('/:id', eventController.getOne);
-eventRouter.post('/', eventController.create);
-eventRouter.put('/:id', eventController.update);
-eventRouter.delete('/:id', eventController.remove);
+eventRouter.route('/')
+  .get(eventController.getAll)
+  .post(eventController.create);
+
+eventRouter.get('/type/:type', eventController.getByType);
+
+eventRouter.route('/:id')
+  .get(eventController.getOne)
+  .post(eventController.create)
+  .put(eventController.update)
+  .delete(eventController.remove);
 
 export default eventRouter;

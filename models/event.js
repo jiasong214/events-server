@@ -27,8 +27,14 @@ const EventSchema = new mongoose.Schema({
   },
   room: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "room",
+    ref: "Room",
     required: true,
+  },
+  bookings: {
+    type: String,
+    default: JSON.stringify({
+      "1-1": "1"
+    })
   }
 });
 

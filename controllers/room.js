@@ -7,7 +7,7 @@ export const getAll = async (req, res) => {
 }
 
 export const getOne = async (req, res) => {
-  const event = await RoomData.find({_id: req.params.id});
+  const event = await RoomData.findOne({_id: req.params.id});
 
   return res.status(200).json(event);
 }
@@ -25,7 +25,7 @@ export const update = async (req, res) => {
 }
 
 export const remove = async (req, res) => {
-  const event = await RoomData.deleteOne({_id: req.params.id});
+  const event = await RoomData.findOneAndDelete({_id: req.params.id});
   
   return res.status(200).json(event);
 }
