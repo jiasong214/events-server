@@ -3,6 +3,10 @@ import mongoose from 'mongoose';
 // TODO: input validation
 
 const UserSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    default: "user"
+  },
   email: {
     type: String,
     required: true

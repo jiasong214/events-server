@@ -2,7 +2,7 @@ import express from "express";
 import cors from 'cors';
 import mongoose from 'mongoose';
 import userRouter from './routers/user.js'
-// import eventRouter from './routers/event.js'
+import eventRouter from './routers/event.js'
 // import roomRouter from './routers/room.js'
 
 // env
@@ -22,7 +22,7 @@ app.use(cors());
 
 //router
 app.use('/user', userRouter);
-// app.use('/event', eventRouter);
+app.use('/event', eventRouter);
 // app.use('/room', roomRouter);
 
 

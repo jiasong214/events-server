@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 
 const EventSchema = new mongoose.Schema({
   type: {
@@ -12,6 +12,10 @@ const EventSchema = new mongoose.Schema({
     required: true,
     trim: true,
     lowercase: true
+  },
+  image: {
+    type: String,
+    default: ""
   },
   info: {
     type: String,
