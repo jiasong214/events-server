@@ -10,7 +10,7 @@ userRouter.post('/login', userController.login);
 userRouter.post('/signup', userController.signup);
 
 userRouter.post('/:id/wishlist', userController.addWishlist);
-userRouter.delete('/:id/wishlist', userController.removeWishlist);
+userRouter.delete('/:id/wishlist/:eventID', userController.removeWishlist);
 
 
 export default userRouter;

@@ -85,14 +85,21 @@ export const addWishlist = async (req, res) => {
 
 export const removeWishlist = async (req, res) => {
   const userID = req.params.id;
-  const eventID = req.body.eventID;
+  const eventID = req.params.eventID;
 
+  // 1. find user's wishlist
   const user = await UserData.findOne({_id: userID});
+  const wishlist = await user.wishlist;
 
-  console.log(user.wishlist);
+  // 2. remove the target item in the wishlist
+  const filteredWishlist = wishlist.filter((item) => item._id.toString() !== eventID);
+  user.wishlist = filteredWishlist;
 
-  // user.wishlist.push(eventID);
-  // user.save();
+  // 3. save the result and populate it
+  const newUser = await user.save()
+    .then(data => data.populate("wishlist"));
+
+  return res.status(200).json(newUser);
 }
 
 // export const remove = async (req, res) => {
