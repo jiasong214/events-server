@@ -1,4 +1,7 @@
+import EventData from '../models/Event.js';
 import BookingData from '../models/Booking.js';
+import UserData from '../models/User.js';
+import eventRouter from '../routers/event.js';
 
 
 export const getAll = async (req, res) => {
@@ -8,14 +11,32 @@ export const getAll = async (req, res) => {
 }
 
 export const getOne = async (req, res) => {
-  const booking = await BookingData.findOne({_id: req.params.id}).populate("event", "user");
+  const booking = await BookingData.findOne({_id: req.params.id})
+    .populate("user")
+    .populate("event");
 
   return res.status(200).json(booking);
 }
 
 export const create = async (req, res) => {
-  // const userID = req.
-  // const booking = await BookingData.create({...req.body});
+  const {userID, eventID, seats} = req.body;
 
-  // return res.status(200).json(booking);
+  // 1. create a booking
+  const newBooking = await BookingData.create({
+    user: userID,
+    event: eventID,
+    seats
+  });
+
+  // 2. push the booking in User data
+  const user = await UserData.findOne({_id: userID});
+  user.bookings.push(newBooking);
+  await user.save();
+
+  // // 3. push the booking in Event data
+  const event = await EventData.findOne({_id: eventID});
+  event.bookings.push(newBooking);
+  await event.save();
+
+  return res.status(200).json(newBooking);
 }

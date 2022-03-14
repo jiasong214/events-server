@@ -31,10 +31,10 @@ const EventSchema = new mongoose.Schema({
     required: true,
   },
   bookings: {
-    type: String,
-    default: JSON.stringify({
-      "1-1": "1"
-    })
+    type: Array,
+    // type: [mongoose.Schema.Types.ObjectId],
+    // ref: "Booking",
+    default: []
   }
 });
 

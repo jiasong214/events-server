@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import UserData from '../models/User.js';
-import User from '../models/User.js';
 
 const createJWT = (email) => {
   return jwt.sign(
@@ -66,7 +65,8 @@ export const getAll = async (req, res) => {
 
 export const getOne = async (req, res) => {
   const id = req.params.id;
-  const user = await UserData.findOne({_id: id}).populate("wishlist");
+  const user = await UserData.findOne({_id: id})
+    .populate("wishlist");
  
   return res.status(200).json(user);
 }
@@ -78,7 +78,7 @@ export const addWishlist = async (req, res) => {
   const user = await UserData.findOne({_id: userID});
 
   user.wishlist.push(eventID);
-  user.save();
+  await user.save();
 
   return res.status(200).json(user);
 }

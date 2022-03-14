@@ -21,8 +21,9 @@ const UserSchema = new mongoose.Schema({
     default: []
   },
   bookings: {
-    type: [mongoose.Schema.Types.ObjectId],
-    ref: "Booking",
+    type: Array,
+    // type: [mongoose.Schema.Types.ObjectId],
+    // ref: "Booking",
     default: []
   }
 });

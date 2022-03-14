@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import userRouter from './routers/user.js'
 import eventRouter from './routers/event.js'
 import roomRouter from './routers/room.js'
+import bookingRouter from './routers/booking.js'
 
 // env
 const PORT = 8080;
@@ -24,6 +25,7 @@ app.use(cors());
 app.use('/user', userRouter);
 app.use('/event', eventRouter);
 app.use('/room', roomRouter);
+app.use('/booking', bookingRouter);
 
 
 // DB connection
