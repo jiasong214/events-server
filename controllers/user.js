@@ -1,10 +1,11 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import UserData from '../models/User.js';
+import user from '../models/User.js';
 
-const createJWT = (email) => {
+const createJWT = (id) => {
   return jwt.sign(
-    {email},
+    {_id: id},
     "F2dN7x8HVzBWaQuEEDnhsvHXRWqAR63z",
     { expiresIn: 86400 },
   )
@@ -29,10 +30,14 @@ export const signup = async (req, res) => {
   }
 
   // 4. create a token
-  const token = createJWT(email);
+  const token = createJWT(newUser.id);
 
   // 5. send a response
-  return res.status(200).json({id: newUser.id, token});
+  return res.status(200).json({
+    id: newUser.id, 
+    token,
+    type: newUser.type
+  });
 }
 
 export const login = async (req, res) => {
@@ -51,10 +56,21 @@ export const login = async (req, res) => {
   }
 
   // 3. create a token
-  const token = createJWT(user.email);
+  const token = createJWT(user.id);
 
   // 4. send a response
-  return res.status(200).json({id: user.id, token});
+  return res.status(200).json({
+    id: user.id, 
+    token,
+    type: user.type
+  });
+}
+
+export const me = async (req, res) => {
+  const userID = req.userID;
+  const user = await UserData.find({_id: userID});
+
+  return res.status(200).json(user);
 }
 
 export const getAll = async (req, res) => {

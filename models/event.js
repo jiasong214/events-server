@@ -31,9 +31,9 @@ const EventSchema = new mongoose.Schema({
     required: true,
   },
   bookings: {
-    type: Array,
-    // type: [mongoose.Schema.Types.ObjectId],
-    // ref: "Booking",
+    // type: Array,
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: "Booking",
     default: []
   }
 });

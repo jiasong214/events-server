@@ -1,7 +1,6 @@
 import EventData from '../models/Event.js';
 import BookingData from '../models/Booking.js';
 import UserData from '../models/User.js';
-import eventRouter from '../routers/event.js';
 
 
 export const getAll = async (req, res) => {
@@ -30,12 +29,12 @@ export const create = async (req, res) => {
 
   // 2. push the booking in User data
   const user = await UserData.findOne({_id: userID});
-  user.bookings.push(newBooking);
+  user.bookings.push(newBooking._id);
   await user.save();
 
   // // 3. push the booking in Event data
   const event = await EventData.findOne({_id: eventID});
-  event.bookings.push(newBooking);
+  event.bookings.push(newBooking._id);
   await event.save();
 
   return res.status(200).json(newBooking);

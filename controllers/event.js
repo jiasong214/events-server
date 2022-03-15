@@ -38,9 +38,7 @@ export const getByType = async (req, res) => {
 }
 
 export const getOne = async (req, res) => {
-  const event = await EventData.findOne({_id: req.params.id})
-    .populate("room")
-    .populate("bookings");
+  const event = await EventData.findOne({_id: req.params.id}).populate("room");
 
   return res.status(200).json(event);
 }
