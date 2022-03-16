@@ -9,10 +9,9 @@ userRouter.get('/me', isAuth, userController.me);
 userRouter.get('/:id', userController.getOne);
 userRouter.post('/signup', userController.signup);
 userRouter.post('/login', userController.login);
-userRouter.post('/signup', userController.signup);
 
-userRouter.post('/:id/wishlist', userController.addWishlist);
-userRouter.delete('/:id/wishlist/:eventID', userController.removeWishlist);
+userRouter.post('/:id/wishlist', isAuth, userController.addWishlist);
+userRouter.delete('/:id/wishlist/:eventID', isAuth, userController.removeWishlist);
 
 
 export default userRouter;

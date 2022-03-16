@@ -68,7 +68,7 @@ export const login = async (req, res) => {
 
 export const me = async (req, res) => {
   const userID = req.userID;
-  const user = await UserData.find({_id: userID});
+  const user = await UserData.findOne({_id: userID});
 
   return res.status(200).json(user);
 }
@@ -108,7 +108,7 @@ export const removeWishlist = async (req, res) => {
   const wishlist = await user.wishlist;
 
   // 2. remove the target item in the wishlist
-  const filteredWishlist = wishlist.filter((item) => item._id.toString() !== eventID);
+  const filteredWishlist = wishlist.filter((item) => item.toString() !== eventID);
   user.wishlist = filteredWishlist;
 
   // 3. save the result and populate it
