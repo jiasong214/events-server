@@ -34,7 +34,7 @@ export const signup = async (req, res) => {
 
   // 5. send a response
   return res.status(200).json({
-    id: newUser.id, 
+    _id: newUser.id, 
     token,
     type: newUser.type
   });
@@ -60,7 +60,7 @@ export const login = async (req, res) => {
 
   // 4. send a response
   return res.status(200).json({
-    id: user.id, 
+    _id: user.id, 
     token,
     type: user.type
   });
@@ -82,7 +82,8 @@ export const getAll = async (req, res) => {
 export const getOne = async (req, res) => {
   const id = req.params.id;
   const user = await UserData.findOne({_id: id})
-    .populate("wishlist");
+    .populate("wishlist")
+    .populate("bookings");
  
   return res.status(200).json(user);
 }
