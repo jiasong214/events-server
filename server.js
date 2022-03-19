@@ -1,10 +1,11 @@
 import express from "express";
 import cors from 'cors';
 import mongoose from 'mongoose';
-import userRouter from './routers/user.js'
-import eventRouter from './routers/event.js'
-import roomRouter from './routers/room.js'
-import bookingRouter from './routers/booking.js'
+import userRouter from './routers/user.js';
+import eventRouter from './routers/event.js';
+import roomRouter from './routers/room.js';
+import bookingRouter from './routers/booking.js';
+import paymentRouter from './routers/payment.js';
 
 // env
 const PORT = 8080;
@@ -21,11 +22,13 @@ app.listen(PORT, () => {
 app.use(express.json());
 app.use(cors());
 
+
 //router
 app.use('/user', userRouter);
 app.use('/event', eventRouter);
 app.use('/room', roomRouter);
 app.use('/booking', bookingRouter);
+app.use('/payment', paymentRouter);
 
 
 // DB connection

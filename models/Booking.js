@@ -14,6 +14,10 @@ const BookingSchema = new mongoose.Schema({
   seats: {
     type: [],
     required: true,
+  },
+  paymentID: {
+    type: String,
+    required: true,
   }
 });
 

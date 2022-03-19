@@ -18,13 +18,14 @@ export const getOne = async (req, res) => {
 }
 
 export const create = async (req, res) => {
-  const {userID, eventID, seats} = req.body;
+  const {userID, eventID, seats, paymentID} = req.body;
 
   // 1. create a booking
   const newBooking = await BookingData.create({
     user: userID,
     event: eventID,
-    seats
+    seats,
+    paymentID
   });
 
   // 2. push the booking in User data
