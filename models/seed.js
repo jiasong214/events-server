@@ -4,9 +4,11 @@ import UserData from './User.js';
 import RoomData from './Room.js';
 import EventData from './Event.js';
 import BookingData from './Booking.js';
+import { config } from '../config.js';
 
 // connect to database
-mongoose.connect('mongodb://127.0.0.1:27017/events-website');
+// mongoose.connect('mongodb://127.0.0.1:27017/events-website');
+mongoose.connect(config.db.mongoURI);
 const db = mongoose.connection;
 
 db.on('error', (err) => {
