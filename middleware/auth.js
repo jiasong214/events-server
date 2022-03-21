@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import UserData from '../models/User.js';
-
+import {config} from '../config.js';
 
 export const isAuth = async (req, res, next) => {
   // 1. get a token from the request header
@@ -16,7 +16,7 @@ export const isAuth = async (req, res, next) => {
   if(!token) return res.status(401).json({ message: 'Authentication error' });
 
   // 3. if there is a token, verify it
-  jwt.verify(token, "F2dN7x8HVzBWaQuEEDnhsvHXRWqAR63z", async (err, decoded) => {
+  jwt.verify(token, config.jwt.secretKey, async (err, decoded) => {
 
     // 3-1. check error and early return
     if(err) return res.status(401).json({ message: 'Authentication error' });

@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import UserData from '../models/User.js';
-import user from '../models/User.js';
+import {config} from '../config.js';
 
 const createJWT = (id) => {
   return jwt.sign(
     {_id: id},
-    "F2dN7x8HVzBWaQuEEDnhsvHXRWqAR63z",
-    { expiresIn: 86400 },
+    config.jwt.secretKey,
+    { expiresIn: config.jwt.expiresInSec },
   )
 }
 
@@ -21,10 +21,13 @@ export const signup = async (req, res) => {
   }
 
   // 2. encrypt password
-  const encryptedPassword = await bcrypt.hash(password, 10);
+  const encryptedPassword = bcrypt.hashSync(password, 10);
 
   // 3. create a user in DB
-  const newUser = await UserData.create({email, password: encryptedPassword});
+  const newUser = await UserData.create({
+    email, 
+    password: encryptedPassword
+  });
   if(!newUser) {
     return res.status(404).json({message: 'Fail to create a user'});
   }
@@ -34,7 +37,7 @@ export const signup = async (req, res) => {
 
   // 5. send a response
   return res.status(200).json({
-    _id: newUser.id, 
+    _id: newUser._id, 
     token,
     type: newUser.type
   });
@@ -61,7 +64,7 @@ export const login = async (req, res) => {
 
   // 4. send a response
   return res.status(200).json({
-    _id: user.id, 
+    _id: user._id, 
     token,
     type: user.type
   });
@@ -119,8 +122,3 @@ export const removeWishlist = async (req, res) => {
 
   return res.status(200).json(newUser);
 }
-
-// export const remove = async (req, res) => {
-//   const { email, password } = req.body;
-
-// }

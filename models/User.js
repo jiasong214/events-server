@@ -9,10 +9,12 @@ const UserSchema = new mongoose.Schema({
   },
   email: {
     type: String,
+    trim: true,
     required: true
   },
   password: {
     type: String,
+    trim: true,
     required: true
   },
   wishlist: {
@@ -21,7 +23,6 @@ const UserSchema = new mongoose.Schema({
     default: []
   },
   bookings: {
-    // type: Array,
     type: [mongoose.Schema.Types.ObjectId],
     ref: "Booking",
     default: []

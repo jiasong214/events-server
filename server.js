@@ -1,16 +1,14 @@
 import express from "express";
 import cors from 'cors';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 import userRouter from './routers/user.js';
 import eventRouter from './routers/event.js';
 import roomRouter from './routers/room.js';
 import bookingRouter from './routers/booking.js';
 import paymentRouter from './routers/payment.js';
+import {config} from './config.js';
 
-dotenv.config();
-
-const PORT = process.env.PORT || 8080;
+const PORT = config.host.port;
 
 // create server
 const app = express();
@@ -21,8 +19,12 @@ app.listen(PORT, () => {
 });
 
 // middleware
+const corsOption = {
+  // origin: "*",
+  origin: config.cors.allowedOrigin,
+}
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOption));
 
 
 //router
@@ -34,8 +36,8 @@ app.use('/payment', paymentRouter);
 
 
 // DB connection
-
-mongoose.connect(process.env.MONGO_URI)
 // mongoose.connect('mongodb://127.0.0.1:27017/events-website');
+mongoose.connect(config.db.mongoURI);
+
 const db = mongoose.connection;
 
