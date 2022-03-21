@@ -38,6 +38,25 @@ export const getByType = async (req, res) => {
   return res.status(200).json([...events, ...expiredEvents]);
 }
 
+export const getBySearch = async (req, res) => {
+  const searchTerm = req.params.term;
+
+  const date = new Date();
+  const yesterday = date.setDate(date.getDate() - 1);
+
+  const events = await EventData.find({
+    "date": { $gte: yesterday },
+    "name": {'$regex': searchTerm, '$options': 'i'}
+  }).populate("room").sort({"date": 1});
+
+  const expiredEvents = await EventData.find({
+    "date": { $lt: yesterday },
+    "name": {'$regex': searchTerm, '$options': 'i'}
+  }).populate("room").sort({"date": 1});
+
+  return res.status(200).json([...events, ...expiredEvents]);
+}
+
 export const getOne = async (req, res) => {
   const event = await EventData.findOne({_id: req.params.id})
   .populate("room")

@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import UserData from './User.js';
 import RoomData from './Room.js';
 import EventData from './Event.js';
+import BookingData from './Booking.js';
 
 // connect to database
 mongoose.connect('mongodb://127.0.0.1:27017/events-website');
@@ -19,6 +20,7 @@ db.once('open', async () => {
     await createRooms();
     await createEvents();
     await createUsers();
+    await createBookings();
 
   }catch(err) {
     db.close();
@@ -33,9 +35,20 @@ const createUsers = async () => {
 
   let users = await UserData.create([
     {
-      email: 'admin@admin.com',
+      email: 'test@test.com',
       password: bcrypt.hashSync('chicken', 10),
-      type: "admin"
+    },
+    {
+      email: 'test1@test.com',
+      password: bcrypt.hashSync('chicken', 10),
+    },
+    {
+      email: 'test2test.com',
+      password: bcrypt.hashSync('chicken', 10),
+    },
+    {
+      email: 'test3@test.com',
+      password: bcrypt.hashSync('chicken', 10),
     },
     {
       email: 'jiasong214@gmail.com',
@@ -43,15 +56,15 @@ const createUsers = async () => {
     },
   ]);
 
+  let admin = await UserData.create([
+    {
+      email: 'admin@admin.com',
+      password: bcrypt.hashSync('chicken', 10),
+      type: "admin"
+    }
+  ])
+
   console.log(`USER: created ${users.length} users.`)
-
-
-
-  // await user[1].wishlist.push()
-
-  // await testFlights[0].saveReservation( 10, 1, users[0] );
-  // await testFlights[1].saveReservation( 10, 2, users[1] );
-  // await testFlights[1].saveReservation( 10, 2, users[1] );
 };
 
 const createRooms = async () => {
@@ -231,4 +244,79 @@ const createEvents = async () => {
   ])
 
   console.log(`EVENT: created ${events.length} events.`);
+}
+
+const createBooking = async (userID, eventID, seats, paymentID) => {
+  // 1. create a booking
+  const newBooking = await BookingData.create({
+    user: userID,
+    event: eventID,
+    seats,
+    paymentID
+  });
+
+  // 2. push the booking in User data
+  const user = await UserData.findOne({_id: userID});
+  user.bookings.push(newBooking._id);
+  await user.save();
+
+  // // 3. push the booking in Event data
+  const event = await EventData.findOne({_id: eventID});
+  event.bookings.push(newBooking._id);
+  await event.save();
+}
+
+const createBookings = async () => {
+  await BookingData.deleteMany();
+
+  const users = await UserData.find();
+  const events = await EventData.find();
+
+  for(let i=0; i<events.length; i++) {
+    const booking1 = await createBooking(
+      users[1]._id.toString(), 
+      events[i]._id.toString(), 
+      ["0-0", "0-1", "0-2", "0-3", "2-3", "2-4", "2-5", "2-6", "4-6", "4-7", "4-8"],
+      "cs_test_a1xhjgm5XLiryQir0Crpla2l5VG5fEJBdhlaDpHjBWwXfL2kfyR4lYKeC7"
+    );
+    
+    const booking2 = await  createBooking(
+      users[2]._id.toString(), 
+      events[i]._id.toString(), 
+      ["1-3", "1-4", "1-5", "1-6"],
+      "cs_test_a1xhjgm5XLiryQir0Crpla2l5VG5fEJBdhlaDpHjBWwXfL2kfyR4lYKeC7"
+    );
+
+    const booking3 = await createBooking(
+      users[3]._id.toString(), 
+      events[i]._id.toString(), 
+      ["6-5", "6-6"],
+      "cs_test_a1xhjgm5XLiryQir0Crpla2l5VG5fEJBdhlaDpHjBWwXfL2kfyR4lYKeC7"
+    );
+
+    const booking4 = await createBooking(
+      users[3]._id.toString(), 
+      events[i]._id.toString(), 
+      ["3-7", "3-8", "3-9"],
+      "cs_test_a1xhjgm5XLiryQir0Crpla2l5VG5fEJBdhlaDpHjBWwXfL2kfyR4lYKeC7"
+    );
+
+    const booking5 = await createBooking(
+      users[1]._id.toString(), 
+      events[i]._id.toString(), 
+      ["5-9", "5-10"],
+      "cs_test_a1xhjgm5XLiryQir0Crpla2l5VG5fEJBdhlaDpHjBWwXfL2kfyR4lYKeC7"
+    );
+
+    const booking6 = await createBooking(
+      users[2]._id.toString(), 
+      events[i]._id.toString(), 
+      ["5-6", "5-7", "5-8"],
+      "cs_test_a1xhjgm5XLiryQir0Crpla2l5VG5fEJBdhlaDpHjBWwXfL2kfyR4lYKeC7"
+    );
+  }
+
+  const bookings = await BookingData.find();
+
+  console.log(`BOOKING: create ${bookings.length} bookings.`)
 }

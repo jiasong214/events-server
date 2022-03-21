@@ -4,7 +4,9 @@ import UserData from '../models/User.js';
 
 
 export const getAll = async (req, res) => {
-  const booking = await BookingData.find().populate("event", "user");
+  const booking = await BookingData.find()
+    .populate("user")
+    .populate("event");
 
   return res.status(200).json(booking);
 }

@@ -45,6 +45,7 @@ export const login = async (req, res) => {
 
   // 1. check if user email is exist
   const user = await UserData.findOne({email});
+
   if(!user) {
     return res.status(401).json({message: 'Invalid username or password'});
   }
@@ -56,7 +57,7 @@ export const login = async (req, res) => {
   }
 
   // 3. create a token
-  const token = createJWT(user.id);
+  const token = createJWT(user._id);
 
   // 4. send a response
   return res.status(200).json({

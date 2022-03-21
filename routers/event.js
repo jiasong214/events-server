@@ -8,6 +8,7 @@ eventRouter.route('/')
   .post(eventController.create);
 
 eventRouter.get('/type/:type', eventController.getByType);
+eventRouter.get('/search/:term', eventController.getBySearch);
 
 eventRouter.route('/:id')
   .get(eventController.getOne)

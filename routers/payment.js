@@ -10,7 +10,6 @@ const DOMAIN = 'http://localhost:3000/payment';
 paymentRouter.post('/', async (req, res) => {
   const {eventID, eventName, eventPrice, quantity, seats} = req.body;
 
-
   const product = await stripe.products.create({name: eventName});
 
   const price = await stripe.prices.create({
@@ -35,15 +34,12 @@ paymentRouter.post('/', async (req, res) => {
     cancel_url: `${DOMAIN}?canceled=true`,
   });
 
-  console.log(session)
   return res.status(200).json(session);
 });
 
 
 paymentRouter.post('/success', async (req, res) => {
   const session = await stripe.checkout.sessions.retrieve(req.body.session_id);
-
-  console.log(session);
 
   if(!session) return res.status(404);
   // const customer = await stripe.customers.retrieve(session.customer);
