@@ -12,7 +12,6 @@ eventRouter.get('/search/:term', eventController.getBySearch);
 
 eventRouter.route('/:id')
   .get(eventController.getOne)
-  .post(eventController.create)
   .put(eventController.update)
   .delete(eventController.remove);
 

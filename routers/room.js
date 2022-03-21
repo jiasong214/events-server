@@ -9,7 +9,6 @@ roomRouter.route('/')
 
 roomRouter.route('/:id')
   .get(roomController.getOne)
-  .post(roomController.create)
   .put(roomController.update)
   .delete(roomController.remove);
 
