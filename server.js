@@ -23,6 +23,9 @@ const corsOption = {
   // origin: "*",
   origin: config.cors.allowedOrigin,
 }
+
+console.log({corsOption});
+
 app.use(express.json());
 app.use(cors(corsOption));
 
