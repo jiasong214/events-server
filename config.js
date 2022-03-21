@@ -4,8 +4,6 @@ dotenv.config();
 const required = (key, defaultValue = undefined) => {
   const value = process.env[key] || defaultValue;
 
-  // console.log({key, process: process.env, value});
-
   if (value === null) throw new Error(`Key ${key} is undefined`);
   else return value;
 }
