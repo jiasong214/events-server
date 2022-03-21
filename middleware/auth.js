@@ -12,22 +12,24 @@ export const isAuth = async (req, res, next) => {
     token = header.split(' ')[1];
   }
 
-  // 2. if there is no token, early return
+  // if there is no token, early return
   if(!token) return res.status(401).json({ message: 'Authentication error' });
 
-  // 3. if there is a token, verify it
+  // 2. verify the token
   jwt.verify(token, config.jwt.secretKey, async (err, decoded) => {
 
-    // 3-1. check error and early return
+    // check error and early return
     if(err) return res.status(401).json({ message: 'Authentication error' });
 
-    // 3-2, check if user is actually exist
+    // 3. check if user is actually exist with the decoded preload
     const user = await UserData.findOne({_id: decoded._id});
 
     if(!user) return res.status(401).json({ message: 'Authentication error' });
 
-    // 3-3. if the token is verified, go to the controller
-    req.userID = user._id; // for me()
+    // store the user id in req.userID (for me() function)
+    req.userID = user._id;
+
+    // 4. if the token is verified, go to the next function in the controller
     next();
   });
 }

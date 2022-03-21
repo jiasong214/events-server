@@ -1,11 +1,9 @@
 import EventData from '../models/Event.js';
 
-
 export const getAll = async (req, res) => {
   const date = new Date();
   const yesterday = date.setDate(date.getDate() - 1);
 
-  //TODO: 
   // events from today
   const events = await EventData.find({
     "date": { $gte: yesterday }

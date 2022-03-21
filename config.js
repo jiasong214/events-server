@@ -2,10 +2,16 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const required = (key, defaultValue = undefined) => {
+  // if the value is not exist in .env, it'll use the second parameter.
+  // (if you didn't pass the second parameter, it'll be undefined)
   const value = process.env[key] || defaultValue;
 
-  if (value === null) throw new Error(`Key ${key} is undefined`);
-  else return value;
+  // throw the error if the value is undefined
+  if (value === undefined) {
+    throw new Error(`Key ${key} is undefined`);
+  }
+
+  return value;
 }
 
 export const config = {

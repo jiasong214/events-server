@@ -2,7 +2,6 @@ import EventData from '../models/Event.js';
 import BookingData from '../models/Booking.js';
 import UserData from '../models/User.js';
 
-
 export const getAll = async (req, res) => {
   const booking = await BookingData.find()
     .populate("user")

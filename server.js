@@ -8,15 +8,13 @@ import bookingRouter from './routers/booking.js';
 import paymentRouter from './routers/payment.js';
 import {config} from './config.js';
 
-const PORT = config.host.port;
-
 // create server
 const app = express();
 
 // run server
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
+const PORT = config.host.port;
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // middleware
 const corsOption = {
@@ -27,7 +25,7 @@ app.use(express.json());
 app.use(cors(corsOption));
 
 
-//router
+// routers
 app.use('/user', userRouter);
 app.use('/event', eventRouter);
 app.use('/room', roomRouter);
@@ -40,4 +38,3 @@ app.use('/payment', paymentRouter);
 mongoose.connect(config.db.mongoURI);
 
 const db = mongoose.connection;
-

@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
 
-// TODO: input validation
-
 const UserSchema = new mongoose.Schema({
   type: {
     type: String,
@@ -28,11 +26,5 @@ const UserSchema = new mongoose.Schema({
     default: []
   }
 });
-
-// UserSchema.set("toJSON", {
-//   transform: (doc, ret) => {
-//     delete ret.password;
-//   }
-// });
 
 export default mongoose.model("User", UserSchema);

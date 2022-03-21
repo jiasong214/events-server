@@ -37,12 +37,10 @@ paymentRouter.post('/', async (req, res) => {
   return res.status(200).json(session);
 });
 
-
 paymentRouter.post('/success', async (req, res) => {
   const session = await stripe.checkout.sessions.retrieve(req.body.session_id);
 
   if(!session) return res.status(404);
-  // const customer = await stripe.customers.retrieve(session.customer);
 
   return res.status(200).json(session);
 });
