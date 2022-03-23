@@ -37,7 +37,7 @@ const createUsers = async () => {
 
   let users = await UserData.create([
     {
-      email: 'test@test.com',
+      email: 'test0@test.com',
       password: bcrypt.hashSync('chicken', 10),
     },
     {
@@ -53,7 +53,7 @@ const createUsers = async () => {
       password: bcrypt.hashSync('chicken', 10),
     },
     {
-      email: 'jiasong214@gmail.com',
+      email: 'test4@test.com',
       password: bcrypt.hashSync('chicken', 10),
     },
   ]);
@@ -64,7 +64,16 @@ const createUsers = async () => {
       password: bcrypt.hashSync('chicken', 10),
       type: "admin"
     }
-  ])
+  ]);
+
+  let testUser = await UserData.create([
+    {
+      email: 'test@test.com',
+      password: bcrypt.hashSync('chicken', 10),
+    }
+  ]);
+
+
 
   console.log(`USER: created ${users.length} users.`)
 };

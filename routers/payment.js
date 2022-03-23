@@ -4,8 +4,8 @@ import Stripe from "stripe";
 const paymentRouter = express.Router();
 
 const stripe = Stripe("sk_test_51KepnpJKJ2MopKJhGPHZlubHUQ2AcvbWdHhQnlCUiGtYekuzfgZTa5d4XuqW73FzFMwMsVZEU1Zr9QJTnIJrRUt300bRt9v6Yw");
-const DOMAIN = `https://jiasong214.github.io/events-client/#/payment`;
-// const DOMAIN = 'http://localhost:3000/#/payment';
+// const DOMAIN = `https://jiasong214.github.io/events-client/#/payment`;
+const DOMAIN = 'http://localhost:3000/#/payment';
 
 paymentRouter.post('/', async (req, res) => {
   const {eventID, eventName, eventPrice, quantity, seats} = req.body;
